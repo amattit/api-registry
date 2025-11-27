@@ -1,0 +1,15 @@
+Packages
+.build
+xcuserdata
+*.xcodeproj
+DerivedData/
+.DS_Store
+db.sqlite
+.swiftpm
+.env.local
+.env.production
+logs/
+server.log
+*.log
+*.tmp
+*.temp
