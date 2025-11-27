@@ -1,5 +1,9 @@
 # API Registry Microservice
 
+[![CI](https://github.com/username/api-registry-microservice/workflows/CI/badge.svg)](https://github.com/username/api-registry-microservice/actions/workflows/ci.yml)
+[![Security](https://github.com/username/api-registry-microservice/workflows/Security/badge.svg)](https://github.com/username/api-registry-microservice/actions/workflows/security.yml)
+[![Docker](https://github.com/username/api-registry-microservice/workflows/Docker/badge.svg)](https://github.com/username/api-registry-microservice/actions/workflows/docker.yml)
+
 A comprehensive API registry microservice built with Swift Vapor framework for managing services, environments, dependencies, endpoints, database links, and OpenAPI specification generation.
 
 Микросервис для управления реестром API, их зависимостями, окружениями и генерации OpenAPI спецификаций.
