@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  SWIFT_VERSION: 5.9
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: api_registry
+          POSTGRES_DB: api_registry_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Swift
+      uses: swift-actions/setup-swift@v1
+      with:
+        swift-version: ${{ env.SWIFT_VERSION }}
+
+    - name: Cache Swift packages
+      uses: actions/cache@v3
+      with:
+        path: .build
+        key: ${{ runner.os }}-swift-${{ hashFiles('Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-swift-
+
+    - name: Build
+      run: swift build --verbose
+      env:
+        DATABASE_HOST: localhost
+        DATABASE_PORT: 5432
+        DATABASE_USERNAME: api_registry
+        DATABASE_PASSWORD: password
+        DATABASE_NAME: api_registry_test
+
+    - name: Run tests
+      run: swift test --verbose
+      env:
+        DATABASE_HOST: localhost
+        DATABASE_PORT: 5432
+        DATABASE_USERNAME: api_registry
+        DATABASE_PASSWORD: password
+        DATABASE_NAME: api_registry_test
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Swift
+      uses: swift-actions/setup-swift@v1
+      with:
+        swift-version: ${{ env.SWIFT_VERSION }}
+
+    - name: Check Swift format
+      run: |
+        # Install swift-format if available
+        if command -v swift-format &> /dev/null; then
+          swift-format lint --recursive Sources/
+        else
+          echo "swift-format not available, skipping format check"
+        fi
+
+    - name: Build for warnings
+      run: swift build --verbose 2>&1 | tee build.log && ! grep -q "warning:" build.log
+      env:
+        DATABASE_HOST: localhost
+        DATABASE_PORT: 5432
+        DATABASE_USERNAME: api_registry
+        DATABASE_PASSWORD: password
+        DATABASE_NAME: api_registry_test
