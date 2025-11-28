@@ -9,7 +9,7 @@ COPY . .
 RUN swift build -c release --static-swift-stdlib
 
 # Switch to the staging area
-FROM ubuntu:22.04 as staging
+FROM ubuntu:24.04 as staging
 
 # Make sure all system packages are up to date, and install only essential packages
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
