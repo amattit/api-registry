@@ -30,9 +30,7 @@ struct OpenAPILoaderService {
     }
     
     private func fetchOpenAPISpec(from url: String) async throws -> OpenAPISpec {
-        guard let uri = URI(string: url) else {
-            throw Abort(.badRequest, reason: "Invalid URL format")
-        }
+        let uri = URI(string: url)
         
         let response = try await client.get(uri)
         
