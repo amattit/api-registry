@@ -33,12 +33,12 @@ struct EndpointController: RouteCollection {
             }
             .all()
         
-        return try endpoints.map { endpoint in
-            let calls = try endpoint.endpointDependencies.map { endpointDep in
+        return endpoints.map { endpoint in
+            let calls = endpoint.endpointDependencies.map { endpointDep in
                 EndpointCallResponse(from: endpointDep, dependency: endpointDep.dependency)
             }
             
-            let databases = try endpoint.endpointDatabases.map { endpointDb in
+            let databases = endpoint.endpointDatabases.map { endpointDb in
                 EndpointDatabaseResponse(from: endpointDb, database: endpointDb.database)
             }
             
@@ -70,11 +70,11 @@ struct EndpointController: RouteCollection {
             throw Abort(.notFound, reason: "Endpoint not found")
         }
         
-        let calls = try endpoint.endpointDependencies.map { endpointDep in
+        let calls = endpoint.endpointDependencies.map { endpointDep in
             EndpointCallResponse(from: endpointDep, dependency: endpointDep.dependency)
         }
         
-        let databases = try endpoint.endpointDatabases.map { endpointDb in
+        let databases = endpoint.endpointDatabases.map { endpointDb in
             EndpointDatabaseResponse(from: endpointDb, database: endpointDb.database)
         }
         
@@ -232,11 +232,11 @@ struct EndpointController: RouteCollection {
             }
             .first()!
         
-        let calls = try updatedEndpoint.endpointDependencies.map { endpointDep in
+        let calls = updatedEndpoint.endpointDependencies.map { endpointDep in
             EndpointCallResponse(from: endpointDep, dependency: endpointDep.dependency)
         }
         
-        let databases = try updatedEndpoint.endpointDatabases.map { endpointDb in
+        let databases = updatedEndpoint.endpointDatabases.map { endpointDb in
             EndpointDatabaseResponse(from: endpointDb, database: endpointDb.database)
         }
         

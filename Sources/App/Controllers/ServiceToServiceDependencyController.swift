@@ -169,7 +169,7 @@ struct ServiceToServiceDependencyController: RouteCollection {
     
     // MARK: - Dependency Graph
     
-    func getServiceDependencyGraph(req: Request) async throws -> ServiceDependencyGraphResponse {
+    func getServiceDependencyGraph(req: Request) async throws -> ServiceToServiceDependencyGraphResponse {
         guard let serviceId = req.parameters.get("serviceId", as: UUID.self) else {
             throw Abort(.badRequest, reason: "Invalid service ID")
         }
@@ -218,7 +218,7 @@ struct ServiceToServiceDependencyController: RouteCollection {
             )
         }
         
-        return ServiceDependencyGraphResponse(
+        return ServiceToServiceDependencyGraphResponse(
             service: service,
             dependencies: dependencyResponses,
             dependents: dependentResponses

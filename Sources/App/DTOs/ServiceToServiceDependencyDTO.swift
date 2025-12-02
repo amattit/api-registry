@@ -65,13 +65,17 @@ struct ServiceSummary: Content {
     }
 }
 
-struct ServiceDependencyGraphResponse: Content {
+struct ServiceToServiceDependencyGraphResponse: Content {
     let serviceId: UUID
     let serviceName: String
     let dependencies: [ServiceToServiceDependencyResponse]
     let dependents: [ServiceToServiceDependencyResponse]
     
-    init(service: Service, dependencies: [ServiceToServiceDependencyResponse], dependents: [ServiceToServiceDependencyResponse]) {
+    init(
+        service: Service,
+        dependencies: [ServiceToServiceDependencyResponse],
+        dependents: [ServiceToServiceDependencyResponse]
+    ) {
         self.serviceId = service.id!
         self.serviceName = service.name
         self.dependencies = dependencies
