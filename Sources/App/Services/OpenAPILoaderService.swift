@@ -191,43 +191,49 @@ struct OpenAPILoaderService {
     }
     
     private func buildRequestSchema(from operation: OpenAPIOperation) throws -> [String: AnyCodable]? {
-        guard let requestBody = operation.requestBody else { return nil }
+        guard operation.requestBody != nil || operation.parameters != nil else { return nil }
         
         var schema: [String: AnyCodable] = [:]
         
-        if let content = requestBody.content {
-            schema["content"] = AnyCodable(content)
+        // Обрабатываем requestBody
+        if let requestBody = operation.requestBody {
+            if let content = requestBody.content {
+                // Конвертируем [String: AnyCodable] в простой словарь
+                let contentDict = convertAnyCodableDict(content)
+                schema["content"] = AnyCodable(contentDict)
+            }
+            
+            if let required = requestBody.required {
+                schema["required"] = AnyCodable(required)
+            }
         }
         
-        if let required = requestBody.required {
-            schema["required"] = AnyCodable(required)
-        }
-        
+        // Обрабатываем parameters
         if let parameters = operation.parameters {
-            var parametersData: [[String: AnyCodable]] = []
+            var parametersArray: [[String: Any]] = []
             
             for param in parameters {
-                var paramData: [String: AnyCodable] = [
-                    "name": AnyCodable(param.name),
-                    "in": AnyCodable(param.in)
+                var paramDict: [String: Any] = [
+                    "name": param.name,
+                    "in": param.in
                 ]
                 
                 if let description = param.description {
-                    paramData["description"] = AnyCodable(description)
+                    paramDict["description"] = description
                 }
                 
                 if let required = param.required {
-                    paramData["required"] = AnyCodable(required)
+                    paramDict["required"] = required
                 }
                 
-                if let schema = param.schema {
-                    paramData["schema"] = AnyCodable(schema)
+                if let paramSchema = param.schema {
+                    paramDict["schema"] = convertAnyCodableDict(paramSchema)
                 }
                 
-                parametersData.append(paramData)
+                parametersArray.append(paramDict)
             }
             
-            schema["parameters"] = AnyCodable(parametersData)
+            schema["parameters"] = AnyCodable(parametersArray)
         }
         
         return schema.isEmpty ? nil : schema
@@ -236,21 +242,21 @@ struct OpenAPILoaderService {
     private func buildResponseSchemas(from operation: OpenAPIOperation) throws -> [String: AnyCodable]? {
         guard let responses = operation.responses else { return nil }
         
-        var schemas: [String: AnyCodable] = [:]
+        var schemas: [String: Any] = [:]
         
         for (statusCode, response) in responses {
-            var responseData: [String: AnyCodable] = [
-                "description": AnyCodable(response.description)
+            var responseData: [String: Any] = [
+                "description": response.description
             ]
             
             if let content = response.content {
-                responseData["content"] = AnyCodable(content)
+                responseData["content"] = convertAnyCodableDict(content)
             }
             
-            schemas[statusCode] = AnyCodable(responseData)
+            schemas[statusCode] = responseData
         }
         
-        return schemas.isEmpty ? nil : schemas
+        return schemas.isEmpty ? nil : ["responses": AnyCodable(schemas)]
     }
     
     private func buildAuthSchema(from operation: OpenAPIOperation) throws -> [String: AnyCodable]? {
@@ -260,20 +266,57 @@ struct OpenAPILoaderService {
     }
     
     private func buildMetadata(from operation: OpenAPIOperation) throws -> [String: AnyCodable]? {
-        var metadata: [String: AnyCodable] = [:]
+        var metadata: [String: Any] = [:]
         
         if let description = operation.description {
-            metadata["description"] = AnyCodable(description)
+            metadata["description"] = description
         }
         
         if let operationId = operation.operationId {
-            metadata["operationId"] = AnyCodable(operationId)
+            metadata["operationId"] = operationId
         }
         
         if let tags = operation.tags {
-            metadata["tags"] = AnyCodable(tags)
+            metadata["tags"] = tags
         }
         
-        return metadata.isEmpty ? nil : metadata
+        if metadata.isEmpty {
+            return nil
+        }
+        
+        // Возвращаем каждое поле отдельно, а не в обертке
+        var result: [String: AnyCodable] = [:]
+        for (key, value) in metadata {
+            result[key] = AnyCodable(value)
+        }
+        
+        return result
+    }
+    
+    // Вспомогательная функция для конвертации AnyCodable словарей в простые словари
+    private func convertAnyCodableDict(_ dict: [String: AnyCodable]) -> [String: Any] {
+        var result: [String: Any] = [:]
+        
+        for (key, value) in dict {
+            result[key] = convertAnyCodableValue(value)
+        }
+        
+        return result
+    }
+    
+    // Вспомогательная функция для конвертации AnyCodable значений
+    private func convertAnyCodableValue(_ value: AnyCodable) -> Any {
+        switch value.value {
+        case let dict as [String: AnyCodable]:
+            return convertAnyCodableDict(dict)
+        case let array as [AnyCodable]:
+            return array.map { convertAnyCodableValue($0) }
+        case let dict as [String: Any]:
+            return dict
+        case let array as [Any]:
+            return array
+        default:
+            return value.value
+        }
     }
 }
