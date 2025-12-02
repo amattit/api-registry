@@ -30,6 +30,9 @@ func routes(_ app: Application) throws {
     // Dependency routes
     try api.register(collection: DependencyController())
     
+    // Service-to-Service dependency routes
+    try api.register(collection: ServiceToServiceDependencyController())
+    
     // Database routes
     try api.register(collection: DatabaseController())
     

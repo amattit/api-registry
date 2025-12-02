@@ -47,4 +47,5 @@ enum DependencyType: String, Codable, CaseIterable {
     case STORAGE = "STORAGE"
     case EXTERNAL_API = "EXTERNAL_API"
     case LIBRARY = "LIBRARY"
+    case SERVICE = "SERVICE"
 }

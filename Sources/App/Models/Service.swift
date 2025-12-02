@@ -43,6 +43,12 @@ final class Service: Model, Content, @unchecked Sendable {
     @Children(for: \.$service)
     var endpoints: [Endpoint]
     
+    @Children(for: \.$consumerService)
+    var consumedServices: [ServiceToServiceDependency]
+    
+    @Children(for: \.$providerService)
+    var providedServices: [ServiceToServiceDependency]
+    
     init() { }
     
     init(id: UUID? = nil, name: String, description: String? = nil, owner: String, tags: [String] = [], serviceType: ServiceType, supportsDatabase: Bool = false, proxy: Bool = false) {

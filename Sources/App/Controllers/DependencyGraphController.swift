@@ -33,7 +33,7 @@ struct DependencyGraphController: RouteCollection {
                 serviceType: service.serviceType.rawValue,
                 metadata: [
                     "description": AnyCodable(service.description ?? ""),
-                    "owner": AnyCodable(service.owner ?? ""),
+                    "owner": AnyCodable(service.owner),
                     "tags": AnyCodable(service.tags)
                 ]
             ))
@@ -48,7 +48,7 @@ struct DependencyGraphController: RouteCollection {
                     type: "service_dependency",
                     metadata: [
                         "dependencyType": AnyCodable(serviceDep.dependency.dependencyType.rawValue),
-                        "version": AnyCodable(serviceDep.dependency.version ?? "")
+                        "version": AnyCodable(serviceDep.dependency.version)
                     ]
                 ))
             }
