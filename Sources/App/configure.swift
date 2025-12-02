@@ -17,6 +17,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(CreateServiceEnvironment())
     app.migrations.add(CreateDependency())
     app.migrations.add(CreateServiceDependency())
+    app.migrations.add(CreateServiceToServiceDependency())
     app.migrations.add(CreateDatabase())
     app.migrations.add(CreateServiceDbLink())
     app.migrations.add(CreateEndpoint())
