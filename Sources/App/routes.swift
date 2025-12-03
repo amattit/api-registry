@@ -41,4 +41,7 @@ func routes(_ app: Application) throws {
     
     // Dependency graph routes
     try api.register(collection: DependencyGraphController())
+    
+    // OpenAPI loader routes
+    try api.register(collection: OpenAPILoaderController())
 }
