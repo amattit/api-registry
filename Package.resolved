@@ -1,6 +1,15 @@
 {
-  "originHash" : "b9222ddeca9f5596e8e597fb9d66e9b4d1fcef61ae54b275ad78fe3c133adc58",
+  "originHash" : "d8ce862fe1f634fd4d99ec4816077f68465056784bb583a8640c5c72097e253a",
   "pins" : [
+    {
+      "identity" : "ar-db-documentation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/amattit/ar-db-documentation",
+      "state" : {
+        "branch" : "main",
+        "revision" : "40ae1ff91c2129155f97d363106f4a7a8edb8c6a"
+      }
+    },
     {
       "identity" : "async-http-client",
       "kind" : "remoteSourceControl",
