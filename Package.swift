@@ -11,6 +11,8 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.7.2"),
         .package(url: "https://github.com/amattit/ar-db-documentation", branch: "main"),
+        .package(path: "/Users/seregin-ma/Desktop/pproject/APIDocumentationManager")
+//        .package(url: "https://github.com/amattit/APIDocumentationManager", branch: "main"),
     ],
     targets: [
         .executableTarget(
@@ -20,6 +22,8 @@ let package = Package(
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "DBDocumentationKit", package: "ar-db-documentation"),
+                .product(name: "APIDocumentationManager", package: "APIDocumentationManager")
+//                .product(name: "APIDocumentationManager", package: "APIDocumentationManager"),
             ]
         ),
         .testTarget(name: "AppTests", dependencies: [

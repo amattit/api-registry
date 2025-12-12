@@ -1,4 +1,5 @@
 import Fluent
+import APIDocumentationManager
 import Vapor
 
 func routes(_ app: Application) throws {
@@ -22,26 +23,27 @@ func routes(_ app: Application) throws {
     }
 
     // API v1 routes
-    let api = app.grouped("api", "v1")
+//    let api = app.grouped("api", "v1")
     
     // Service routes
-    try api.register(collection: SimpleServiceController())
+//    try api.register(collection: SimpleServiceController())
     
     // Dependency routes
-    try api.register(collection: DependencyController())
+//    try api.register(collection: DependencyController())
     
     // Service-to-Service dependency routes
-    try api.register(collection: ServiceToServiceDependencyController())
+//    try api.register(collection: ServiceToServiceDependencyController())
     
     // Database routes
-    try api.register(collection: DatabaseController())
+//    try api.register(collection: DatabaseController())
     
     // Endpoint routes
-    try api.register(collection: EndpointController())
+//    try api.register(collection: EndpointController())
     
     // Dependency graph routes
-    try api.register(collection: DependencyGraphController())
+//    try api.register(collection: DependencyGraphController())
     
     // OpenAPI loader routes
-    try api.register(collection: OpenAPILoaderController())
+//    try api.register(collection: OpenAPILoaderController())
+    
 }

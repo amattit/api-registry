@@ -1,0 +1,376 @@
+{
+  "info": {
+    "name": "API Registry Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection for API Registry Service with Vapor backend"
+  },
+  "item": [
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "Get All Services",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"User Service\",\n  \"version\": \"1.0.0\",\n  \"type\": \"internal\",\n  \"owner\": \"team-auth\",\n  \"description\": \"Service for user management\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Service by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/services/{{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "services", "{{serviceId}}"],
+              "variable": [
+                {
+                  "key": "serviceId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Service",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"User Service Updated\",\n  \"version\": \"1.1.0\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/services/{{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "services", "{{serviceId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Service Environment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"production\",\n  \"host\": \"https://api.userservice.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/services/{{serviceId}}/env",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "services", "{{serviceId}}", "env"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Service",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/services/{{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "services", "{{serviceId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "API Calls",
+      "item": [
+        {
+          "name": "Get All API Calls",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/calls",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "calls"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create API Call",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/api/v1/users\",\n  \"method\": \"GET\",\n  \"description\": \"Get all users\",\n  \"tags\": [\"users\", \"read\"],\n  \"serviceID\": \"{{serviceId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/calls",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "calls"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create API Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statusCode\": 200,\n  \"description\": \"Success response\",\n  \"contentType\": \"application/json\",\n  \"examples\": {\n    \"success\": \"{\\\"data\\\": []}\"\n  },\n  \"headers\": {\n    \"X-Total-Count\": \"100\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/calls/{{apiCallId}}/responses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "calls", "{{apiCallId}}", "responses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create API Parameters",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"page\",\n    \"type\": \"integer\",\n    \"location\": \"query\",\n    \"required\": false,\n    \"description\": \"Page number\",\n    \"example\": \"1\"\n  },\n  {\n    \"name\": \"limit\",\n    \"type\": \"integer\",\n    \"location\": \"query\",\n    \"required\": false,\n    \"description\": \"Items per page\",\n    \"example\": \"20\"\n  }\n]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/calls/{{apiCallId}}/parameters",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "calls", "{{apiCallId}}", "parameters"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Schemas",
+      "item": [
+        {
+          "name": "Get All Schemas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/schemas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "schemas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Schema",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"User\",\n  \"attributes\": [\n    {\n      \"name\": \"id\",\n      \"type\": \"UUID\",\n      \"isNullable\": false,\n      \"description\": \"User unique identifier\",\n      \"defaultValue\": null\n    },\n    {\n      \"name\": \"name\",\n      \"type\": \"String\",\n      \"isNullable\": false,\n      \"description\": \"User full name\",\n      \"defaultValue\": null\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/schemas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "schemas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Link Schema to Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"responseID\": \"{{responseId}}\",\n  \"schemaID\": \"{{schemaId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/calls/link-schema-response",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "calls", "link-schema-response"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Environment Variables",
+      "item": [
+        {
+          "name": "Set Environment Variables",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Pre-request script to set initial variables",
+                  "if (!pm.collectionVariables.get(\"baseUrl\")) {",
+                  "    pm.collectionVariables.set(\"baseUrl\", \"http://localhost:8080\");",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}",
+              "host": ["{{baseUrl}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "serviceId",
+      "value": ""
+    },
+    {
+      "key": "apiCallId",
+      "value": ""
+    },
+    {
+      "key": "schemaId",
+      "value": ""
+    },
+    {
+      "key": "responseId",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "console.log('Request:', pm.request);"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Common tests for all requests",
+          "pm.test(\"Response time is less than 500ms\", function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(500);",
+          "});",
+          "",
+          "pm.test(\"Content-Type header is present\", function () {",
+          "    pm.response.to.have.header(\"Content-Type\");",
+          "});"
+        ]
+      }
+    }
+  ]
+}

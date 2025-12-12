@@ -1,6 +1,8 @@
 import Fluent
 import FluentPostgresDriver
 import Vapor
+import APIDocumentationManager
+import DBDocumentationKit
 
 public func configure(_ app: Application) throws {
     // Configure database
@@ -12,17 +14,8 @@ public func configure(_ app: Application) throws {
         database: Environment.get("DATABASE_NAME") ?? "api_registry"
     ), as: .psql)
 
-    // Configure migrations
-    app.migrations.add(CreateService())
-    app.migrations.add(CreateServiceEnvironment())
-    app.migrations.add(CreateDependency())
-    app.migrations.add(CreateServiceDependency())
-    app.migrations.add(CreateServiceToServiceDependency())
-    app.migrations.add(CreateDatabase())
-    app.migrations.add(CreateServiceDbLink())
-    app.migrations.add(CreateEndpoint())
-    app.migrations.add(CreateEndpointDependency())
-    app.migrations.add(CreateEndpointDatabase())
+    try DBDocumentationKit.configure(app, configuration: .init())
+    try APIDocumentationKit.configure(app, configuration: .init())
 
     // Configure middleware
     app.middleware.use(CORSMiddleware(configuration: .init(
@@ -32,6 +25,8 @@ public func configure(_ app: Application) throws {
     )))
     app.middleware.use(ErrorMiddleware.default(environment: app.environment))
 
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    
     // Configure routes
     try routes(app)
     
